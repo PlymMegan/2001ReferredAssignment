@@ -1,8 +1,5 @@
-﻿using Azure;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Data;
-using System.Reflection.Emit;
+﻿using Microsoft.EntityFrameworkCore;
+using ModerationMicroservice.Entities;
 
 public class ModerationContext : DbContext
 {
@@ -35,7 +32,7 @@ public class ModerationContext : DbContext
 
         // Moderation configuration
         modelBuilder.Entity<Moderation>()
-        .HasKey(m => m.ModerationID);
+            .HasKey(m => m.ModerationID);
 
         modelBuilder.Entity<Moderation>()
             .HasOne(m => m.User)
@@ -52,4 +49,3 @@ public class ModerationContext : DbContext
             .HasForeignKey(e => e.UserID);
     }
 }
-
