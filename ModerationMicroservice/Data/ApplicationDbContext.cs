@@ -18,6 +18,14 @@ namespace ModerationMicroservice.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Specify The Schema
+            modelBuilder.Entity<User>().ToTable("Users", "CWR2");
+            modelBuilder.Entity<Role>().ToTable("Roles", "CWR2");
+            modelBuilder.Entity<UserRole>().ToTable("UserRoles", "CWR2");
+            modelBuilder.Entity<Moderation>().ToTable("Moderations", "CWR2");
+            modelBuilder.Entity<Email>().ToTable("Emails", "CWR2");
+            modelBuilder.Entity<ModerationArchive>().ToTable("ModerationArchives", "CWR2");
+
             // UserRoles configuration
             modelBuilder.Entity<UserRole>()
                 .HasKey(ur => ur.UserRoleID);
