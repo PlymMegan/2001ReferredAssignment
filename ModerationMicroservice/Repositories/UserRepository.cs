@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ModerationMicroservice.Entities;
+using ModerationMicroservice.Data;
 
 namespace ModerationMicroservice.Repositories
 {

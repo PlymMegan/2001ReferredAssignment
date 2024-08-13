@@ -1,51 +1,54 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ModerationMicroservice.Entities;
 
-public class ModerationContext : DbContext
+namespace ModerationMicroservice.Data
 {
-    public ModerationContext(DbContextOptions<ModerationContext> options) : base(options) { }
-
-    public DbSet<User> Users { get; set; }
-    public DbSet<Role> Roles { get; set; }
-    public DbSet<UserRole> UserRoles { get; set; }
-    public DbSet<Moderation> Moderations { get; set; }
-    public DbSet<Email> Emails { get; set; }
-    public DbSet<ModerationArchive> ModerationArchives { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public class ModerationContext : DbContext
     {
-        base.OnModelCreating(modelBuilder);
+        public ModerationContext(DbContextOptions<ModerationContext> options) : base(options) { }
 
-        // UserRoles configuration
-        modelBuilder.Entity<UserRole>()
-            .HasKey(ur => ur.UserRoleID);
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Moderation> Moderations { get; set; }
+        public DbSet<Email> Emails { get; set; }
+        public DbSet<ModerationArchive> ModerationArchives { get; set; }
 
-        modelBuilder.Entity<UserRole>()
-            .HasOne(ur => ur.User)
-            .WithMany(u => u.UserRoles)
-            .HasForeignKey(ur => ur.UserID);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<UserRole>()
-            .HasOne(ur => ur.Role)
-            .WithMany(r => r.UserRoles)
-            .HasForeignKey(ur => ur.RoleID);
+            // UserRoles configuration
+            modelBuilder.Entity<UserRole>()
+                .HasKey(ur => ur.UserRoleID);
 
-        // Moderation configuration
-        modelBuilder.Entity<Moderation>()
-            .HasKey(m => m.ModerationID);
+            modelBuilder.Entity<UserRole>()
+                .HasOne(ur => ur.User)
+                .WithMany(u => u.UserRoles)
+                .HasForeignKey(ur => ur.UserID);
 
-        modelBuilder.Entity<Moderation>()
-            .HasOne(m => m.User)
-            .WithMany(u => u.Moderations)
-            .HasForeignKey(m => m.UserID);
+            modelBuilder.Entity<UserRole>()
+                .HasOne(ur => ur.Role)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.RoleID);
 
-        // Email configuration
-        modelBuilder.Entity<Email>()
-            .HasKey(e => e.EmailID);
+            // Moderation configuration
+            modelBuilder.Entity<Moderation>()
+                .HasKey(m => m.ModerationID);
 
-        modelBuilder.Entity<Email>()
-            .HasOne(e => e.User)
-            .WithMany(u => u.Emails)
-            .HasForeignKey(e => e.UserID);
+            modelBuilder.Entity<Moderation>()
+                .HasOne(m => m.User)
+                .WithMany(u => u.Moderations)
+                .HasForeignKey(m => m.UserID);
+
+            // Email configuration
+            modelBuilder.Entity<Email>()
+                .HasKey(e => e.EmailID);
+
+            modelBuilder.Entity<Email>()
+                .HasOne(e => e.User)
+                .WithMany(u => u.Emails)
+                .HasForeignKey(e => e.UserID);
+        }
     }
 }
